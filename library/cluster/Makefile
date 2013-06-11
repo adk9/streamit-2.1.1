@@ -3,8 +3,9 @@
 include $(STREAMIT_HOME)/misc/Makefile.vars
 
 CFLAGS = 	-O2
-CFLAGS += 	-I.
+CFLAGS += 	-fPIC -pedantic -I.
 LIBRARY =       libcluster.a
+SHLIB =         libcluster.so
 LIBRARYP =      libcluster_p.a
 
 # unsupported versions
@@ -57,7 +58,7 @@ OBJS_IA64 = 	$(NAMES:%=%_ia64.o)
 OBJS_ARM = 	$(NAMES:%=%_arm.o)
 OBJSP =         $(NAMES:%=%_p.o)
 
-all: $(LIBRARY)
+all: $(LIBRARY) $(SHLIB)
 
 ia64: $(LIBRARY_IA64)
 
@@ -75,6 +76,9 @@ clean:
 $(LIBRARY): $(OBJS)
 	$(AR) r $@ $^
 	$(RANLIB) $@
+
+$(SHLIB): $(OBJS)
+	$(CXX) -shared $^ -o $@
 
 $(LIBRARY_IA64): $(OBJS_IA64)
 	$(AR) r $@ $^
