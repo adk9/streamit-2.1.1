@@ -78,7 +78,7 @@ $(LIBRARY): $(OBJS)
 	$(RANLIB) $@
 
 $(SHLIB): $(OBJS)
-	$(CXX) -shared $^ -o $@
+	$(CXX) -shared $^ -o $@ -pthread
 
 $(LIBRARY_IA64): $(OBJS_IA64)
 	$(AR) r $@ $^
